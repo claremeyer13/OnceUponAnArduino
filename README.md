@@ -1,40 +1,92 @@
-#include <Servo.h>;
- 
- // pushbutton pin
- const int buttonPin = 8;
- // servo pin
- const int servoPin = 3;
- Servo servo;
-//create a variable to store a counter and set it to 0
-int counter = 0;
-void setup()
-{
-  servo.attach (servoPin);
-  
-  // Set up the pushbutton pins to be an input:
-  pinMode(buttonPin, INPUT);
+#include <Servo.h>
+Servo myServo9;
+Servo myServo3;
+Servo myServo10;
+Servo myServo11;
+
+#define servoPin9 9
+#define pushButtonPin2 2
+
+int buttonPushed = 0;
+
+#define servoPin3 3
+#define pushButtonPin4 4
+
+int buttonPushed2 = 0;
+
+#define servoPin10 10
+#define pushButtonPin7 7
+
+int buttonPushed3 = 0;
+
+#define servoPin11 11
+#define pushButtonPin12 12
+
+int buttonPushed4 = 0;
+
+void setup() {
+  Serial.begin(9600);
+  myServo9.attach(9);
+  pinMode(pushButtonPin2, INPUT_PULLUP);
+
+  myServo3.attach(3);
+  pinMode(pushButtonPin4, INPUT_PULLUP);
+
+  myServo10.attach(10);
+  pinMode(pushButtonPin7, INPUT_PULLUP);
+
+  myServo11.attach(11);
+  pinMode(pushButtonPin12, INPUT_PULLUP);
+
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  myServo11.write(0);
+
 }
-void loop()
-{
- // local variable to hold the pushbutton states
-  int buttonState;  
-  //read the digital state of buttonPin with digitalRead() function and store the           //value in buttonState variable
-  buttonState = digitalRead(buttonPin);
-  //if the button is pressed increment counter and wait a tiny bit to give us some          //time to release the button
-  if (buttonState == LOW) // light the LED
-  {
-    counter++;
-    delay(150);
+
+
+
+void loop() {
+
+  // put your main code here, to run repeatedly:
+  if (digitalRead(pushButtonPin2) == LOW) {
+    buttonPushed = 1;
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED off by making the voltage LOW
+    delay(1000);
   }
-  if(counter == 0)
-    servo.write (0);  // zero degrees
-  else if(counter == 1)
-    servo.write(90);
-  else if(counter == 2)
-    servo.write (150); 
-  else if(counter == 3)  
-    servo.write (180);
-  //else reset the counter to 0 which resets thr servo to 0 degrees
-  else
-   counter = 0;
+    if (buttonPushed) {
+      myServo9.write(150);
+      buttonPushed = 0;
+   }
+
+  if (digitalRead(pushButtonPin4) == LOW) {
+    buttonPushed2 = 1;
+  }
+
+    if (buttonPushed2) {
+      myServo3.write(180);
+      buttonPushed2 = 0;
+      digitalWrite(LED_BUILTIN, LOW);  // turn the LED on (HIGH is the voltage level)
+      delay(1000); 
+   }
+
+  if (digitalRead(pushButtonPin7) == LOW) {
+    buttonPushed3 = 1;
+  }
+    if (buttonPushed3) {
+      myServo10.write(180);
+      buttonPushed3 = 0;
+      myServo11.write(180);
+   }
+
+  if (digitalRead(pushButtonPin12) == LOW) {
+    buttonPushed4 = 1;
+  }
+    if (buttonPushed4) {
+      myServo11.write(0);
+      buttonPushed4 = 0;
+   }
+
+  delay(100);
+
 }
