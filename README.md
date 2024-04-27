@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
   switchVal = digitalRead(switchPin); 
 
   if (switchVal != prevSwitchVal) {
@@ -32,7 +32,17 @@ void loop() {
     myservo.write(servoAngle);
 
   }
-
+{
+ // local variable to hold the pushbutton states
+  int buttonState;  
+  //read the digital state of buttonPin with digitalRead() function and store the           //value in buttonState variable
+  buttonState = digitalRead(buttonPin);
+  //if the button is pressed increment counter and wait a tiny bit to give us some          //time to release the button
+  if (buttonState == LOW) // light the LED
+  {
+    counter++;
+    delay(150);
+  }
   prevSwitchVal = switchVal
 
 }
